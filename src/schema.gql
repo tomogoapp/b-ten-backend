@@ -1,0 +1,259 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  email: String!
+  username: String!
+  isActive: Boolean
+  roles: String!
+  created_at: DateTime
+  updated_at: DateTime
+  deleted_at: DateTime
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CreateUserResponseDTO {
+  message: String!
+}
+
+type LoginResponseDTO {
+  token: String!
+  message: String!
+  user: User!
+  success: Boolean!
+}
+
+type LogoutUserResponseDTO {
+  message: String!
+}
+
+type Component {
+  """Example field (placeholder)"""
+  id: String!
+  type: String!
+  style: String!
+  isPublished: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+type FormComponent {
+  """Example field (placeholder)"""
+  id: String!
+  formUserId: String!
+  formUser: FormUser!
+  componentId: String!
+  component: Component!
+  question: String!
+  image: String!
+  options: [String!]
+  value: Float!
+}
+
+type FormUser {
+  """Unique identifier for the FormUser"""
+  id: String!
+  formId: String!
+  form: Form
+  userId: String!
+  user: User
+  components: [FormComponent!]
+}
+
+type Form {
+  """Form id"""
+  id: String!
+
+  """Form name"""
+  name: String!
+
+  """Form descriptions"""
+  description: String
+
+  """Form descriptions"""
+  isPublished: Boolean!
+  createdAt: DateTime
+  updatedAt: DateTime
+  createdBy: String
+}
+
+type FormObject {
+  message: String!
+  formUser: FormUser
+}
+
+type Role {
+  """Role Id"""
+  id: String!
+
+  """Role Name"""
+  name: String!
+
+  """Role Description"""
+  description: String!
+
+  """Role Permissions"""
+  permissions: String!
+
+  """Role Created Date"""
+  createdDate: String!
+
+  """Role Updated Date"""
+  updatedDate: String!
+
+  """Role Created By"""
+  createdBy: String!
+}
+
+type FormGuest {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type ComponentResponse {
+  message: String!
+  component: Component
+}
+
+type Guest {
+  """Example field (placeholder)"""
+  id: String!
+  f_name: String!
+  l_name: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  createdBy: DateTime!
+}
+
+type FormComponentResponse {
+  """Message"""
+  message: String!
+  formComponent: FormComponent
+}
+
+type Query {
+  login_user(username: String!, password: String!): LoginResponseDTO!
+  form(id: Int!): Form!
+  formList: [FormUser!]!
+  formListByUser: [FormUser!]!
+  formUser(id: String!): FormObject!
+  roles: [Role!]!
+  role(id: Int!): Role!
+  formGuest(id: Int!): FormGuest!
+  components: [Component!]!
+  component(id: Int!): Component!
+  guest(id: Int!): Guest!
+  formComponent(id: Int!): FormComponent!
+}
+
+type Mutation {
+  create_user(username: String!, email: String!, password: String!, confirmPassword: String!): CreateUserResponseDTO!
+  logout(token: String!): LogoutUserResponseDTO!
+  createForm(createFormInput: CreateFormInput!): Form!
+  updateForm(updateFormInput: UpdateFormInput!): Form!
+  removeForm(id: Int!): Form!
+  updateFormUser(updateFormUserInput: UpdateFormUserInput!): FormUser!
+  removeFormUser(id: Int!): FormUser!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: Int!): Role!
+  createFormGuest(createFormGuestInput: CreateFormGuestInput!): FormGuest!
+  updateFormGuest(updateFormGuestInput: UpdateFormGuestInput!): FormGuest!
+  removeFormGuest(id: Int!): FormGuest!
+  createComponent(createComponentInput: CreateComponentInput!): ComponentResponse!
+  updateComponent(updateComponentInput: UpdateComponentInput!): Component!
+  removeComponent(id: Int!): Component!
+  createGuest(createGuestInput: CreateGuestInput!): Guest!
+  updateGuest(updateGuestInput: UpdateGuestInput!): Guest!
+  removeGuest(id: Int!): Guest!
+  createFormComponent(createFormComponentInput: CreateFormComponentInput!): FormComponentResponse!
+  updateFormComponent(updateFormComponentInput: UpdateFormComponentInput!): FormComponent!
+  removeFormComponent(id: Int!): FormComponent!
+}
+
+input CreateFormInput {
+  name: String!
+  description: String!
+}
+
+input UpdateFormInput {
+  name: String
+  description: String
+  id: Int!
+}
+
+input UpdateFormUserInput {
+  formId: String
+  user: String
+  id: Int!
+}
+
+input CreateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateRoleInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateFormGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateFormGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateComponentInput {
+  type: String!
+  style: String!
+}
+
+input UpdateComponentInput {
+  type: String
+  style: String
+  id: Int!
+}
+
+input CreateGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateGuestInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateFormComponentInput {
+  formUserId: String!
+  componentId: String!
+  question: String!
+  value: Float!
+  options: [String!]
+}
+
+input UpdateFormComponentInput {
+  formUserId: String
+  componentId: String
+  question: String!
+  value: Float!
+  options: [String!]
+  id: Int!
+}
