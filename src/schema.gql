@@ -65,6 +65,9 @@ type FormUser {
   userId: String!
   user: User
   components: [FormComponent!]
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
 }
 
 type Form {

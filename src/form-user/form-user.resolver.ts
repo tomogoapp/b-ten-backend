@@ -68,7 +68,7 @@ export class FormUserResolver {
   }
 
   @Mutation(() => FormUser)
-  removeFormUser(@Args('id', { type: () => Int }) id: number) {
+  removeFormUser(@Args('id', { type: () => Int }) id: string) {
     return this.formUserService.remove(id);
   }
 }

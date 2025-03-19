@@ -1,7 +1,7 @@
 version: '3.5'
 
 services:
-  db2:
+  db_bten:
     image: postgres:14.3
     restart: always
     environment:
@@ -15,7 +15,7 @@ services:
     networks:
       - ${NETWORK}
 
-  app:
+  app_bten:
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,10 +25,26 @@ services:
     ports:
       - '3010:3000'
     depends_on:
-      - db2
+      - db_bten
     volumes:
       - ./src:/app/src
       - ./node_modules:/app/node_modules  # Monta node_modules como volumen
+    networks:
+      - ${NETWORK}
+
+  minio_bten:
+    image: minio/minio
+    container_name: ${MINIO_CONTAINER_NAME}
+    ports:
+      - "9070:9000"  # Mapear el puerto 9050 en el host al puerto 9000 en el contenedor para la API S3
+      - "9007:9005"  # Puerto 9005 para la consola MinIO
+    volumes:
+      - "/mnt/data:/data"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY}
+    command: server /data/${MINIO_BUCKET} --console-address ":9005"
+    restart: unless-stopped
     networks:
       - ${NETWORK}
 
@@ -66,9 +82,9 @@ services:
   #     - app
 
 networks:
-  windows96:
+  RayquazarEx:
     driver: bridge
-    name: windows96
+    name: RayquazarEx
     #external: true
 
 

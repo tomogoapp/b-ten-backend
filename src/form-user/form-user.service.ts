@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { FormUser } from './entities/form-user.entity';
 import { Repository } from 'typeorm';
 import { User } from 'src/auth/entities/user.entity';
+import { FormObject } from './dto/form-object';
 
 @Injectable()
 export class FormUserService {
@@ -78,7 +79,26 @@ export class FormUserService {
     return `This action updates a #${id} formUser`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} formUser`;
+  async delete(id:string): Promise<FormObject | null>{
+    await this.formUserRepository.softDelete(id)
+    return{
+      message:"deleted!",
+    }
   }
+
+  async remove(id: string): Promise<FormObject | null> {
+    const formUser = await this.formUserRepository.findOne({ where: { id } });
+  
+    if (!formUser) {
+      throw new Error('FormUser not found');
+    }
+  
+    await this.formUserRepository.remove(formUser);
+  
+    return {
+      message: "Deleted!",
+      formUser,
+    };
+  }
+
 }

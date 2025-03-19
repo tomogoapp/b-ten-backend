@@ -1,5 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn, OneToMany, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { Form } from 'src/forms/entities/form.entity'; // Suponiendo que tienes una entidad Form
 import { User } from 'src/auth/entities/user.entity'; // Suponiendo que tienes una entidad User
 import { FormComponent } from 'src/form-component/entities/form-component.entity';
@@ -32,4 +32,16 @@ export class FormUser {
   @Field(() => [FormComponent], { nullable: true })
   @OneToMany(() => FormComponent, (component) => component.formUser)
   components?: FormComponent[];
+
+  @Field(() => Date)
+  @CreateDateColumn()
+  createdAt?: Date;
+  
+  @Field(() => Date)
+  @UpdateDateColumn()
+  updatedAt?: Date;
+
+  @Field({ nullable: true })
+  @DeleteDateColumn({nullable:true})
+  deletedAt?: Date
 }
