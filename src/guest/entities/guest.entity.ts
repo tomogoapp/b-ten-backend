@@ -1,54 +1,35 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { BeforeInsert, BeforeSoftRemove, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { ObjectType, Field } from '@nestjs/graphql';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
 export class Guest {
-  @Field(() => String, { description: 'Example field (placeholder)' })
+  
+  @Field(() => String, { description: 'Unique identifier for the guest' })
   @PrimaryGeneratedColumn("uuid")
-  id: String;
+  id: string;  // Debe ser `string`, no `String` (ya que `String` es un objeto en JavaScript)
 
   @Field(() => String)
   @Column()
-  f_name: string;
+  firstName: string;  // Cambiado de `Fname` a `firstName` para seguir la convención camelCase
 
   @Field(() => String)
   @Column()
-  l_name: string;
+  lastName: string;  // Cambiado de `Lname` a `lastName`
 
   @Field(() => String)
-  @Column()
+  @Column({ unique: true })  // Asegura que los correos no se repitan
   email: string;
 
   @Field(() => Date)
-  @Column({ nullable: true })
-  createdAt?: Date;
-  
-  @Field(() => Date)
-  @Column({ nullable: true })
-  updatedAt?: Date;
+  @CreateDateColumn()
+  createdAt: Date;  // No necesita `nullable: true`, se genera automáticamente
 
   @Field(() => Date)
-  @Column({ nullable: true })
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @Field(() => Date, { nullable: true })
+  @DeleteDateColumn()
   deletedAt?: Date;
-
-  @Field(() => Date)
-  @Column({ nullable: true })
-  createdBy?: Date;
-
-  @BeforeInsert()
-  setCreatedAt() {
-    const currentDate = new Date();
-    this.createdAt = currentDate;
-  };
-
-  @BeforeUpdate()
-  setUpdatedAt() {
-    this.updatedAt = new Date();
-  };
-
-  @BeforeSoftRemove()
-  setDeletedAt() {
-    this.deletedAt = new Date();
-  };
 }

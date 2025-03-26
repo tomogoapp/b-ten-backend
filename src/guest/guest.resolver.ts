@@ -3,14 +3,25 @@ import { GuestService } from './guest.service';
 import { Guest } from './entities/guest.entity';
 import { CreateGuestInput } from './dto/create-guest.input';
 import { UpdateGuestInput } from './dto/update-guest.input';
+import { ResponseGuest } from './dto/response-guest';
 
 @Resolver(() => Guest)
 export class GuestResolver {
   constructor(private readonly guestService: GuestService) {}
 
-  @Mutation(() => Guest)
-  createGuest(@Args('createGuestInput') createGuestInput: CreateGuestInput) {
-    return this.guestService.create(createGuestInput);
+  @Mutation(() => ResponseGuest)
+  async createGuest(@Args('createGuestInput') createGuestInput: CreateGuestInput): Promise<ResponseGuest> {
+    
+    const result = await this.guestService.create(createGuestInput);
+
+    if(!result){
+      throw new Error('Guest not created');
+    }
+    
+    return {
+      guest: result,
+      message: 'Guest created successfully'
+    };
   }
 
   @Query(() => [Guest], { name: 'guest' })

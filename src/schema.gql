@@ -115,9 +115,25 @@ type Role {
   createdBy: String!
 }
 
+type Guest {
+  """Unique identifier for the guest"""
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
 type FormGuest {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: String!
+  form: Form!
+  guest: Guest!
+  score: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
 }
 
 type ComponentResponse {
@@ -125,16 +141,9 @@ type ComponentResponse {
   component: Component
 }
 
-type Guest {
-  """Example field (placeholder)"""
-  id: String!
-  f_name: String!
-  l_name: String!
-  email: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime!
-  createdBy: DateTime!
+type ResponseGuest {
+  guest: Guest!
+  message: String!
 }
 
 type FormComponentResponse {
@@ -175,7 +184,7 @@ type Mutation {
   createComponent(createComponentInput: CreateComponentInput!): ComponentResponse!
   updateComponent(updateComponentInput: UpdateComponentInput!): Component!
   removeComponent(id: Int!): Component!
-  createGuest(createGuestInput: CreateGuestInput!): Guest!
+  createGuest(createGuestInput: CreateGuestInput!): ResponseGuest!
   updateGuest(updateGuestInput: UpdateGuestInput!): Guest!
   removeGuest(id: Int!): Guest!
   createFormComponent(createFormComponentInput: CreateFormComponentInput!): FormComponentResponse!
@@ -212,14 +221,16 @@ input UpdateRoleInput {
 }
 
 input CreateFormGuestInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  formId: String!
+  guestId: String!
+  score: Int!
 }
 
 input UpdateFormGuestInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  formId: String
+  guestId: String
+  score: Int!
+  id: String!
 }
 
 input CreateComponentInput {
@@ -234,13 +245,15 @@ input UpdateComponentInput {
 }
 
 input CreateGuestInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  firstName: String!
+  lastName: String!
+  email: String!
 }
 
 input UpdateGuestInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  firstName: String
+  lastName: String
+  email: String
   id: Int!
 }
 

@@ -14,7 +14,7 @@ import { FormUserService } from 'src/form-user/form-user.service';
     AuthModule,
     FormUserModule
   ],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, FormsModule],
   providers: [FormsResolver, FormsService,FormUserService],
 })
 export class FormsModule {}

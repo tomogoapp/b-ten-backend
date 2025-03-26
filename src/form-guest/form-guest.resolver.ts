@@ -25,7 +25,7 @@ export class FormGuestResolver {
 
   @Mutation(() => FormGuest)
   updateFormGuest(@Args('updateFormGuestInput') updateFormGuestInput: UpdateFormGuestInput) {
-    return this.formGuestService.update(updateFormGuestInput.id, updateFormGuestInput);
+    //return this.formGuestService.update(updateFormGuestInput.id, updateFormGuestInput);
   }
 
   @Mutation(() => FormGuest)
