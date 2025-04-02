@@ -33,6 +33,29 @@ type LogoutUserResponseDTO {
   message: String!
 }
 
+type Guest {
+  """Unique identifier for the guest"""
+  id: String!
+  firstName: String!
+  lastName: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
+type FormGuest {
+  id: String!
+  formId: String!
+  form: Form!
+  guestId: String!
+  guest: Guest!
+  score: Int
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime
+}
+
 type Component {
   """Example field (placeholder)"""
   id: String!
@@ -77,10 +100,10 @@ type Form {
   """Form name"""
   name: String!
 
-  """Form descriptions"""
+  """Form description"""
   description: String
 
-  """Form descriptions"""
+  """Is the form published?"""
   isPublished: Boolean!
   createdAt: DateTime
   updatedAt: DateTime
@@ -115,35 +138,27 @@ type Role {
   createdBy: String!
 }
 
-type Guest {
-  """Unique identifier for the guest"""
-  id: String!
-  firstName: String!
-  lastName: String!
-  email: String!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime
-}
-
-type FormGuest {
-  id: String!
-  form: Form!
-  guest: Guest!
-  score: Int!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  deletedAt: DateTime
-}
-
-type ComponentResponse {
+type ResponseFormGuest {
   message: String!
-  component: Component
+  formId: String
+  guestId: String
+  score: Int
+}
+
+type ResponseFormsList {
+  forms: [Form!]!
+  guest: Guest!
+  message: String!
 }
 
 type ResponseGuest {
   guest: Guest!
   message: String!
+}
+
+type ComponentResponse {
+  message: String!
+  component: Component
 }
 
 type FormComponentResponse {
@@ -160,10 +175,10 @@ type Query {
   formUser(id: String!): FormObject!
   roles: [Role!]!
   role(id: Int!): Role!
-  formGuest(id: Int!): FormGuest!
+  formGuestAll(guestId: String!): ResponseFormsList!
+  guest(id: Int!): Guest!
   components: [Component!]!
   component(id: Int!): Component!
-  guest(id: Int!): Guest!
   formComponent(id: Int!): FormComponent!
 }
 
@@ -178,15 +193,15 @@ type Mutation {
   createRole(createRoleInput: CreateRoleInput!): Role!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
-  createFormGuest(createFormGuestInput: CreateFormGuestInput!): FormGuest!
+  createFormGuest(createFormGuestInput: CreateFormGuestInput!): ResponseFormGuest!
   updateFormGuest(updateFormGuestInput: UpdateFormGuestInput!): FormGuest!
   removeFormGuest(id: Int!): FormGuest!
-  createComponent(createComponentInput: CreateComponentInput!): ComponentResponse!
-  updateComponent(updateComponentInput: UpdateComponentInput!): Component!
-  removeComponent(id: Int!): Component!
   createGuest(createGuestInput: CreateGuestInput!): ResponseGuest!
   updateGuest(updateGuestInput: UpdateGuestInput!): Guest!
   removeGuest(id: Int!): Guest!
+  createComponent(createComponentInput: CreateComponentInput!): ComponentResponse!
+  updateComponent(updateComponentInput: UpdateComponentInput!): Component!
+  removeComponent(id: Int!): Component!
   createFormComponent(createFormComponentInput: CreateFormComponentInput!): FormComponentResponse!
   updateFormComponent(updateFormComponentInput: UpdateFormComponentInput!): FormComponent!
   removeFormComponent(id: Int!): FormComponent!
@@ -223,7 +238,7 @@ input UpdateRoleInput {
 input CreateFormGuestInput {
   formId: String!
   guestId: String!
-  score: Int!
+  score: Int
 }
 
 input UpdateFormGuestInput {
@@ -231,17 +246,6 @@ input UpdateFormGuestInput {
   guestId: String
   score: Int!
   id: String!
-}
-
-input CreateComponentInput {
-  type: String!
-  style: String!
-}
-
-input UpdateComponentInput {
-  type: String
-  style: String
-  id: Int!
 }
 
 input CreateGuestInput {
@@ -254,6 +258,17 @@ input UpdateGuestInput {
   firstName: String
   lastName: String
   email: String
+  id: Int!
+}
+
+input CreateComponentInput {
+  type: String!
+  style: String!
+}
+
+input UpdateComponentInput {
+  type: String
+  style: String
   id: Int!
 }
 

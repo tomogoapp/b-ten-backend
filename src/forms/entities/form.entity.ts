@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { FormGuest } from 'src/form-guest/entities/form-guest.entity';
 import { FormUser } from 'src/form-user/entities/form-user.entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -13,39 +14,42 @@ export class Form {
   @Column()
   name: string;
 
-  @Field(() => String, { description: 'Form descriptions',nullable: true })
-  @Column()
+  @Field(() => String, { description: 'Form description', nullable: true })
+  @Column({ nullable: true })
   description?: string;
 
-  @Field(() => Boolean, { description: 'Form descriptions', defaultValue: false })
+  @Field(() => Boolean, { description: 'Is the form published?', defaultValue: false })
   @Column({ default: false })
   isPublished?: Boolean;
 
+  // Relación con usuarios que han interactuado con el formulario
   @OneToMany(() => FormUser, (formUser) => formUser.form)
   users: FormUser[];
 
-  @Field({ nullable: true })
-  @Column({ nullable: true })
+  // Relación con invitados que han respondido el formulario
+  @OneToMany(() => FormGuest, (formGuest) => formGuest.form, { cascade: true })
+  formGuests: FormGuest[];
+
+  @Field(() => Date, { nullable: true })
+  @CreateDateColumn()
   createdAt?: Date;
   
   @Field({ nullable: true })
   @Column({ nullable: true })
   updatedAt?: Date;
 
-  @Field({ nullable: true })
+  @Field(() => String, { nullable: true })
   @Column({ nullable: true })
-  createdBy?: String;
+  createdBy?: string;
 
   @BeforeInsert()
   setCreatedAt() {
-    const currentDate = new Date();
-    this.createdAt = currentDate;
+    this.createdAt = new Date();
   };
 
   @BeforeUpdate()
   setUpdatedAt() {
     this.updatedAt = new Date();
   };  
-
-
 }
+

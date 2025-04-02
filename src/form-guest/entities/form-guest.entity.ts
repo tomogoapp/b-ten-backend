@@ -1,29 +1,40 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Form } from 'src/forms/entities/form.entity';
 import { Guest } from 'src/guest/entities/guest.entity';
-import { Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
+@Entity()
 export class FormGuest {
   @Field(() => String)
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Field(() => Form)
+  @Field(() => String)
   @Column()
+  formId: string;
+
+  @Field(() => Form)
+  @ManyToOne(() => Form, (form) => form.formGuests, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'formId' })
   form: Form;
 
-  @Field(() => Guest)
+  @Field(() => String)
   @Column()
+  guestId: string;
+
+  @Field(() => Guest)
+  @ManyToOne(() => Guest, (guest) => guest.formGuests, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'guestId' })
   guest: Guest;
 
-  @Field(() => Int)
-  @Column()
+  @Field(() => Int, { nullable: true })
+  @Column({ nullable: true })
   score: number;
 
   @Field(() => Date)
   @CreateDateColumn()
-  createdAt: Date;  // No necesita `nullable: true`, se genera automáticamente
+  createdAt: Date;
 
   @Field(() => Date)
   @UpdateDateColumn()
@@ -32,5 +43,4 @@ export class FormGuest {
   @Field(() => Date, { nullable: true })
   @DeleteDateColumn()
   deletedAt?: Date;
-
 }

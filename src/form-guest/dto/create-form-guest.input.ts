@@ -1,5 +1,5 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsInt, IsUUID } from 'class-validator';
+import { IsInt, IsOptional, IsUUID } from 'class-validator';
 import { Form } from 'src/forms/entities/form.entity';
 import { Guest } from 'src/guest/entities/guest.entity';
 
@@ -14,9 +14,9 @@ export class CreateFormGuestInput {
   @IsUUID()
   guestId: string;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   @IsInt()
-  score: number;
-
+  @IsOptional()
+  score?: number;
 
 }

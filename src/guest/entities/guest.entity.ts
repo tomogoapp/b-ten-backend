@@ -1,5 +1,6 @@
 import { ObjectType, Field } from '@nestjs/graphql';
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { FormGuest } from 'src/form-guest/entities/form-guest.entity';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -20,6 +21,10 @@ export class Guest {
   @Field(() => String)
   @Column({ unique: true })  // Asegura que los correos no se repitan
   email: string;
+
+  
+  @OneToMany(() => FormGuest, (formGuest) => formGuest.guest, { cascade: true })
+  formGuests: FormGuest[];
 
   @Field(() => Date)
   @CreateDateColumn()
