@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from "@nestjs/graphql";
 import { IsOptional } from "class-validator";
+import { FormGuest } from "../entities/form-guest.entity";
 
 @ObjectType()
 export class ResponseFormGuest {

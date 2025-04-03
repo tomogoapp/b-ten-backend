@@ -146,6 +146,7 @@ type ResponseFormGuest {
 }
 
 type ResponseFormsList {
+  formGuest: FormGuest
   forms: [Form!]!
   guest: Guest!
   message: String!

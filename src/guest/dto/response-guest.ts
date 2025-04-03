@@ -4,7 +4,6 @@ import { Guest } from "../entities/guest.entity";
 @ObjectType()
 export class ResponseGuest {
 
-
     @Field(() => Guest)
     guest: Guest;
 
