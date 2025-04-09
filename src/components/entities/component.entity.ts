@@ -1,10 +1,12 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { BeforeInsert, BeforeSoftRemove, BeforeUpdate, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
+/* This TypeScript class defines a Component with various properties such as id, type, isPublished,
+defaultSettings, createdAt, updatedAt, and deletedAt. */
 export class Component {
-  @Field(() => String, { description: 'Example field (placeholder)' })
+  @Field(() => String)
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
@@ -12,25 +14,24 @@ export class Component {
   @Column()
   type: string;
 
-  @Field(() => String)
-  @Column()
-  style: string;
-
   @Field(() => Boolean)
   @Column({default: false})
   isPublished?: boolean;
 
+  @Field(() => JSON, { nullable: true })
+  @Column('jsonb', { nullable: true })
+  defaultSettings?: Record<string, any>; 
+
   @Field(() => Date)
   @CreateDateColumn()
-  createdAt?: Date;
+  createdAt: Date;
   
-  @Field(() => Date)
-  @UpdateDateColumn()
+  @Field(() => Date,{ nullable: true })
+  @UpdateDateColumn({ nullable: true })
   updatedAt?: Date;
 
   @Field(() => Date,{ nullable: true })
-  @DeleteDateColumn()
+  @DeleteDateColumn({ nullable: true })
   deletedAt?: Date;
 
 }
-4

@@ -1,7 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Component } from 'src/components/entities/component.entity';
 import { FormUser } from 'src/form-user/entities/form-user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 
 @ObjectType()
 @Entity()
@@ -33,6 +33,18 @@ export class FormComponent {
   question: string;
 
   @Field(() => String)
+  @Column({ nullable: true })
+  hint?: string;
+
+  @Field(() => Boolean)
+  @Column({ default: false })   
+  isRequired?: boolean;
+
+  @Field(() => Boolean)
+  @Column({ default: false })
+  isPublished?: boolean;
+
+  @Field(() => String)
   @Column({nullable:true})
   image?: string;
 
@@ -43,6 +55,18 @@ export class FormComponent {
   @Field(() => Number)
   @Column({ nullable: true })
   value: number;
+
+  @Field(() => Date)
+  @CreateDateColumn({ nullable: true })
+  createdAt?: Date;
+
+  @Field(() => Date)
+  @UpdateDateColumn({ nullable: true })
+  updatedAt?: Date;
+
+  @Field(() => Date)
+  @DeleteDateColumn({ nullable: true })
+  deletedAt?: Date;  
 
 
   // @Field(() => FormUser)

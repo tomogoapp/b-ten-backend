@@ -75,9 +75,15 @@ type FormComponent {
   componentId: String!
   component: Component!
   question: String!
+  hint: String!
+  isRequired: Boolean!
+  isPublished: Boolean!
   image: String!
   options: [String!]
   value: Float!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
 }
 
 type FormUser {

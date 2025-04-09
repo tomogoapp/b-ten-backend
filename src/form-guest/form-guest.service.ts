@@ -75,7 +75,7 @@ export class FormGuestService {
     console.log('formGuests:', formGuests);
 
     return {
-      //formGuest: formGuests[0],
+      formGuest: formGuests[0],
       forms,
       guest,
       message: `Forms associated with guest #${guestId}`,
